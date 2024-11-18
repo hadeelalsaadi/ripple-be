@@ -1,4 +1,4 @@
-const { fetchItems } = require("../models/items.model");
+const { fetchItems, fetchItemById } = require("../models/items.model");
 
 const getItems = (request, response, next) => {
   fetchItems()
@@ -9,5 +9,15 @@ const getItems = (request, response, next) => {
       next(err);
     });
 };
+const getItemById = (request, response, next) => {
+  const { item_id } = request.params;
+  fetchItemById(item_id)
+    .then((data) => {
+      response.status(200).send({ item: data });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
 
-module.exports = { getItems };
+module.exports = { getItems, getItemById };
