@@ -19,7 +19,7 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
               category_id SERIAL PRIMARY KEY,
               category_name VARCHAR,
               description TEXT,
-              img_url VARCHAR
+              image_url VARCHAR
             );`);
       const usersTablePromise = db.query(`
                 CREATE TABLE users (
@@ -62,11 +62,11 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
     })
     .then(() => {
       const insertCategories = format(
-        "INSERT INTO categories (category_name,description, img_url) VALUES %L;",
-        categoriesData.map(({ category_name, description, img_url }) => [
+        "INSERT INTO categories (category_name,description, image_url) VALUES %L;",
+        categoriesData.map(({ category_name, description, image_url }) => [
           category_name,
           description,
-          img_url,
+          image_url,
         ])
       );
 
