@@ -1,0 +1,8 @@
+
+> ripple-be@1.0.0 seed-prod
+> NODE_ENV=development npm run seed
+
+
+> ripple-be@1.0.0 seed
+> node ./db/seed/run-seed.js
+
