@@ -1,0 +1,5 @@
+DROP DATABASE IF EXISTS ripple_test;
+DROP DATABASE IF EXISTS ripple;
+
+CREATE DATABASE ripple_test;
+CREATE DATABASE ripple;
