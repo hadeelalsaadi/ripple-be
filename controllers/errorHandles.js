@@ -1,3 +1,5 @@
+const { request, response } = require("../app");
+
 const customErrorHandler = (err, request, response, next) => {
   if (err.status && err.msg) {
     response.status(err.status).send({ msg: err.msg });
@@ -5,5 +7,16 @@ const customErrorHandler = (err, request, response, next) => {
     next(err);
   }
 };
+const psqlErrorHandler = (err, request, response, next) => {
+  if (err.code === "22P02") {
+    response.status(400).send({ msg: "Bad request" });
+  }
+  next(err);
+};
 
-module.exports = { customErrorHandler };
+const serverErrorHandler = (err, request, response, next) => {
+  console.log(err.stack);
+  response.status(500).send({ msg: "internal server Error" });
+};
+
+module.exports = { customErrorHandler, psqlErrorHandler, serverErrorHandler };

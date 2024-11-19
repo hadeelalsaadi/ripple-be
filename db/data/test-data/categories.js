@@ -63,4 +63,12 @@ module.exports = [
     image_url:
       "https://images.pexels.com/photos/6568942/pexels-photo-6568942.jpeg",
   },
+
+  {
+    category_name: "shoes",
+    description: "get a shoe for your feet",
+    image_url:
+      "https://images.pexels.com/photos/6568942/pexels-photo-6568942.jpeg",
+  },
+
 ];

@@ -4,6 +4,7 @@ const app = require("../app.js");
 const db = require("../db/connection.js");
 const seed = require("../db/seed/seed.js");
 const data = require("../db/data/test-data/index.js");
+require("jest-sorted");
 
 beforeEach(() => {
   return seed(data);
@@ -41,6 +42,7 @@ describe("/api/items", () => {
         .expect(200)
         .then(({ body }) => {
           expect(body.items).toHaveLength(10);
+          expect(body.items).toBeSortedBy("date_listed", { descending: true });
           body.items.forEach((item) => {
             expect(item).toHaveProperty("item_id");
             expect(item).toHaveProperty("item_name");
@@ -79,8 +81,42 @@ describe("/api/items", () => {
           });
         });
     });
+    test("GET:200 response with all items sorted when passed valid sorted and order query", () => {
+      return request(app)
+        .get("/api/items?sorted=item_name&order=asc")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.items).toBeSortedBy("item_name");
+        });
+    });
+    test("GET-404 response with category does not exist when passed invalid category", () => {
+      return request(app)
+        .get("/api/items?category=hello")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toEqual("category not exist");
+        });
+    });
+    test("GET-200 response with empty array when passed category that exist with no items", () => {
+      return request(app)
+        .get("/api/items?category=shoes")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.items).toEqual([]);
+        });
+    });
+
+    test("GET-400 response with an error when invalid sorted or order passed in", () => {
+      return request(app)
+        .get("/api/items?sorted=hello&order=ascc")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("invalid sorting or order query");
+        });
+    });
   });
 });
+
 describe("/api/items/:item_id", () => {
   describe("GET-Requests-item-by-id", () => {
     test("GET:200 response with an item object", () => {
@@ -90,6 +126,22 @@ describe("/api/items/:item_id", () => {
         .then(({ body }) => {
           expect(Object.keys(body.item).length).toBe(12);
           expect(body.item.item_id).toBe(1);
+        });
+    });
+    test("GET-400 response with bad request when passed with item_id that is not a number", () => {
+      return request(app)
+        .get("/api/items/id")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("GET-404 response with not found when passed item not exist in items table", () => {
+      return request(app)
+        .get("/api/items/999")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("item not found");
         });
     });
   });
