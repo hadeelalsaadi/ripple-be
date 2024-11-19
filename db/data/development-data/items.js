@@ -29,7 +29,7 @@ module.exports = [
   },
   {
     item_name: "Kitchen Mixer",
-    category_id: 3,
+    category_id: 1,
     user_id: 5,
     description:
       "A kitchen mixer in great condition. Includes all attachments.",
@@ -56,7 +56,7 @@ module.exports = [
   },
   {
     item_name: "Vintage Camera",
-    category_id: 5,
+    category_id: 1,
     user_id: 9,
     description: "A fully functional vintage camera, perfect for enthusiasts.",
     image_url: "https://i.pravatar.cc/150?img=64",
@@ -96,7 +96,7 @@ module.exports = [
   },
   {
     item_name: "Electric Kettle",
-    category_id: 8,
+    category_id: 1,
     user_id: 1,
     description:
       "Electric kettle, used but in good condition, boils water quickly.",
