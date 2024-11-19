@@ -1,4 +1,5 @@
 const db = require("../db/connection.js");
+const format = require("pg-format");
 
 const fetchItems = (sorted = "date_listed", order = "desc", category) => {
   const validSorted = ["date_listed", "item_name", "collection_point"];
@@ -44,4 +45,14 @@ const fetchItemById = (id) => {
     });
 };
 
-module.exports = { fetchItems, fetchItemById };
+const postItem = (newItem) => {
+  const queryStr = format(
+    `insert into items (item_name, category_id, user_id, description, image_url, collection_point, date_of_expire, date_listed, reserved_for_id, reserve_status, collection_state) VALUES %L returning items.*`,
+    [Object.values(newItem)]
+  );
+  return db.query(queryStr).then(({ rows }) => {
+    return rows[0];
+  });
+};
+
+module.exports = { fetchItems, fetchItemById, postItem };

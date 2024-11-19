@@ -105,13 +105,37 @@ describe("/api/items", () => {
           expect(body.items).toEqual([]);
         });
     });
-
     test("GET-400 response with an error when invalid sorted or order passed in", () => {
       return request(app)
         .get("/api/items?sorted=hello&order=ascc")
         .expect(400)
         .then(({ body }) => {
           expect(body.msg).toBe("invalid sorting or order query");
+        });
+    });
+  });
+  describe("POST - request-item", () => {
+    test("POST: 201 - adds a new article to the list", () => {
+      const newArticle = {
+        item_name: "Funny Mug",
+        category_id: 2,
+        user_id: 2,
+        description: "Mug with the very funny quote on it.",
+        image_url: "https://i.pravatar.cc/150?img=60",
+        collection_point: "123 Elm Street, Los Angeles, CA",
+        date_of_expire: "2024-12-01T00:12:00.000Z",
+        date_listed: "2024-11-18T00:08:00.000Z",
+        reserved_for_id: null,
+        reserve_status: false,
+        collection_state: false,
+      };
+      return request(app)
+        .post("/api/items")
+        .send(newArticle)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.item).toMatchObject(newArticle);
+          expect(typeof body.item.item_id).toBe("number");
         });
     });
   });
