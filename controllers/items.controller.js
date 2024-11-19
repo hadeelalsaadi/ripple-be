@@ -1,7 +1,9 @@
 const { fetchItems, fetchItemById } = require("../models/items.model");
 
 const getItems = (request, response, next) => {
-  fetchItems()
+  const { sorted, order, category } = request.query;
+
+  fetchItems(sorted, order, category)
     .then((data) => {
       response.status(200).send({ items: data });
     })

@@ -12,6 +12,9 @@ app.get("/api/items/:item_id", getItemById);
 app.get("*", (request, response) => {
   response.status(404).send({ msg: "Endpoint does not exist!" });
 });
-
+app.use((err, request, response, next) => {
+  console.log(err.stack);
+  response.status(500).send({ msg: "internal server Error" });
+});
 app.use(customErrorHandler);
 module.exports = app;
