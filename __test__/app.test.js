@@ -115,7 +115,7 @@ describe("/api/items", () => {
     });
   });
   describe("POST - request-item", () => {
-    test("POST: 201 - adds a new article to the list", () => {
+    test("POST: 201 - adds a new item to the list", () => {
       const newArticle = {
         item_name: "Funny Mug",
         category_id: 2,
@@ -136,6 +136,49 @@ describe("/api/items", () => {
         .then(({ body }) => {
           expect(body.item).toMatchObject(newArticle);
           expect(typeof body.item.item_id).toBe("number");
+        });
+    });
+    test("POST: 400 - responds with the correct status when provided with the object with missing keys", () => {
+      const newArticle = {
+        item_name: "Funny Mug",
+        user_id: 2,
+        description: "Mug with the very funny quote on it.",
+        image_url: "https://i.pravatar.cc/150?img=60",
+        collection_point: "123 Elm Street, Los Angeles, CA",
+        date_of_expire: "2024-12-01T00:12:00.000Z",
+        date_listed: "2024-11-18T00:08:00.000Z",
+        reserved_for_id: null,
+        reserve_status: false,
+        collection_state: false,
+      };
+      return request(app)
+        .post("/api/items")
+        .send(newArticle)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("POST: 400 - responds with the correct status when provided with the object with wrong keys", () => {
+      const newArticle = {
+        item_name: "Funny Mug",
+        category_id: "two",
+        user_id: 2,
+        description: "Mug with the very funny quote on it.",
+        image_url: "https://i.pravatar.cc/150?img=60",
+        collection_point: "123 Elm Street, Los Angeles, CA",
+        date_of_expire: "2024-12-01T00:12:00.000Z",
+        date_listed: "2024-11-18T00:08:00.000Z",
+        reserved_for_id: null,
+        reserve_status: false,
+        collection_state: false,
+      };
+      return request(app)
+        .post("/api/items")
+        .send(newArticle)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
         });
     });
   });

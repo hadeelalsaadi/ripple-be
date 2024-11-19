@@ -31,7 +31,6 @@ const addItem = (request, response, next) => {
   const newItem = request.body;
   postItem(newItem)
     .then((item) => {
-      console.log(newItem, "oldItem", { item }, "<<newItem");
       response.status(201).send({ item: item });
     })
     .catch((err) => {

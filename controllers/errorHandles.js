@@ -8,7 +8,7 @@ const customErrorHandler = (err, request, response, next) => {
   }
 };
 const psqlErrorHandler = (err, request, response, next) => {
-  if (err.code === "22P02") {
+  if (err.code === "22P02" || err.code === "23502") {
     response.status(400).send({ msg: "Bad request" });
   }
   next(err);
