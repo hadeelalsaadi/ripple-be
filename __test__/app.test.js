@@ -71,7 +71,7 @@ describe("/api/items", () => {
             user_id: 3,
             description:
               "A sturdy wooden bookshelf, has minor scratches but fully functional.",
-            image_url: "https://i.pravatar.cc/150?img=61",
+            image_url: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             collection_point: "456 Oak Avenue, London, UK",
             date_of_expire: "2024-11-30T18:00:00.000Z",
             date_listed: "2024-11-17T09:30:00.000Z",
@@ -272,7 +272,7 @@ describe("/api/users", () => {
     });
   });
   describe("POST user object", () => {
-    test.only("POST:201 response with added user object", () => {
+    test("POST:201 response with added user object", () => {
       const user = {
         username: "techguru123",
         name: "Alice Johnson",
@@ -331,6 +331,37 @@ describe("/api/users", () => {
 });
 describe("/api/users/:username", () => {
   describe("GET user by username", () => {
-    test("GET:200 response with user object", () => {});
+    test("GET:200 response with user object", () => {
+      return request(app)
+        .get("/api/users/fitness_freak")
+        .expect(200)
+        .then(({ body }) => {
+         
+          expect(body.user).toHaveProperty("username");
+          expect(body.user).toHaveProperty("name");
+          expect(body.user).toHaveProperty("area");
+          expect(body.user).toHaveProperty("email");
+          expect(body.user).toHaveProperty("rating");
+          expect(body.user).toHaveProperty("avatar_url");
+        });
+    });
+    test("GET:404 response with not found when passed in username not exist",() => {
+      return request(app)
+        .get("/api/users/hadeel")
+        .expect(404)
+        .then(({ body }) => {
+         expect(body.msg).toBe("user not found")
+        });
+    });
+    test("GET:404 response with not found when passed in username as a wrong data type",() => {
+      return request(app)
+        .get("/api/users/999")
+        .expect(404)
+        .then(({ body }) => {
+         expect(body.msg).toBe("user not found")
+        });
+    });
+    
+
   });
 });

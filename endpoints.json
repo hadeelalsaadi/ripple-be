@@ -137,5 +137,20 @@
       "rating": null,
       "avatar_url": "https://i.pravatar.cc/150?img=5"
     }
+  }, 
+  "GET /api/users/:username":{
+    "description": "get a user by username",
+    "params": "username",
+    "example_of_response": {
+      "user_id": 2,
+      "username": "fitness_freak",
+      "name": "Bob Williams",
+      "area": "Los Angeles, USA",
+      "email": "bob.williams@example.com",
+      "rating": "4.5",
+      "avatar_url": "https://i.pravatar.cc/150?img=10"
+
+    }
+
   }
 }
