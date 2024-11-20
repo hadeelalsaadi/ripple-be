@@ -90,4 +90,54 @@ const removeItemById = (item_id) => {
     });
 };
 
-module.exports = { fetchItems, fetchItemById, postItem, removeItemById };
+const patchItem = (
+  item_id,
+  {
+    item_name,
+    category_id,
+    description,
+    image_url,
+    collection_point,
+    date_of_expire,
+    date_listed,
+    reserved_for_id,
+    reserve_status,
+    collection_state,
+  }
+) => {
+  
+  return db
+    .query(
+      `UPDATE items
+    SET item_name = $1, 
+    category_id= $2, description =$3, image_url= $4, collection_point= $5, date_of_expire =$6, date_listed= $7, reserved_for_id= $8, reserve_status =$9, collection_state =$10
+    WHERE item_id = $11 RETURNING *;`,
+      [
+        item_name,
+        category_id,
+        description,
+        image_url,
+        collection_point,
+        date_of_expire,
+        date_listed,
+        reserved_for_id,
+        reserve_status,
+        collection_state,
+        item_id,
+      ]
+    )
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({ status: 404, msg: "item not found" });
+      }
+      return rows[0];
+    });
+};
+
+module.exports = {
+  fetchItems,
+  fetchItemById,
+  postItem,
+  removeItemById,
+  patchItem,
+};

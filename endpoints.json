@@ -98,6 +98,29 @@
     "params": ["item_id"],
     "example_of_response": {}
   },
+  "PATCH /api/items/:item_id": {
+    "description": "Updates item details",
+    "params": "item_id",
+    "new-object ": 
+      {"item_name": "mixer",
+        "category_id": 5,
+        "user_id": 5,
+        "description":
+          "New description",
+        "image_url":
+          "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
+        "collection_point": "ashford,uk",
+        "date_of_expire": "2024-12-05T15:00:00Z",
+        "date_listed": "2024-11-16T12:45:00Z",
+        "reserved_for_id": null,
+        "reserve_status": true,
+        "collection_state": true
+
+      }
+
+    
+  },
+
   "GET /api/categories": {
     "description": "serve all categories ",
     "example_of_response": {

@@ -1,8 +1,10 @@
+const { request, response } = require("../app");
 const {
   fetchItems,
   fetchItemById,
   postItem,
   removeItemById,
+  patchItem,
 } = require("../models/items.model");
 
 const getItems = (request, response, next) => {
@@ -49,5 +51,16 @@ const deleteItemById = (request, response, next) => {
       next(err);
     });
 };
+const updateItem = (request, response, next) => {
+  const updateditem = request.body;
+  const { item_id } = request.params;
+  patchItem(item_id, updateditem)
+    .then((body) => {
+      response.status(200).send({ item: body });
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
 
-module.exports = { getItems, getItemById, addItem, deleteItemById };
+module.exports = { getItems, getItemById, addItem, deleteItemById, updateItem };
