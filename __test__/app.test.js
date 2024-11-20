@@ -213,3 +213,20 @@ describe("/api/items/:item_id", () => {
     });
   });
 });
+
+describe("/api/categories", () => {
+  test("GET:200 response with an array of all categories", () => {
+    return request(app)
+      .get("/api/categories")
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.categories).toHaveLength(11);
+        body.categories.forEach((category) => {
+          expect(category).toHaveProperty("category_id");
+          expect(category).toHaveProperty("category_name");
+          expect(category).toHaveProperty("description");
+          expect(category).toHaveProperty("image_url");
+        });
+      });
+  });
+});

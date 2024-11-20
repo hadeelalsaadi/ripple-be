@@ -11,6 +11,7 @@ const {
   psqlErrorHandler,
   serverErrorHandler,
 } = require("./controllers/errorHandles");
+const getCategories = require("./controllers/categories.controller");
 const app = express();
 
 app.use(cors());
@@ -21,6 +22,7 @@ app.get("/api", getEndPoints);
 app.get("/api/items", getItems);
 app.post("/api/items", addItem);
 app.get("/api/items/:item_id", getItemById);
+app.get("/api/categories", getCategories);
 app.get("*", (request, response) => {
   response.status(404).send({ msg: "Endpoint does not exist!" });
 });
