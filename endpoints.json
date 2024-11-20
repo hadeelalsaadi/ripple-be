@@ -1,5 +1,110 @@
 {
   "GET /api": {
     "description": "serves all api's endpoints "
+  },
+  "GET /api/items": {
+    "description": "serves all items ",
+    "queries": [
+      "categories",
+      "sorted:item_name",
+      "sorted:date_listed",
+      "order{asc,desc}"
+    ],
+    "default": ["date_listed", "DESC"],
+    "example_of_response": {
+      "items": [
+        {
+          "item_id": 1,
+          "item_name": "Mountain Bike",
+          "category_id": 1,
+          "user_id": 2,
+          "description": "A slightly used mountain bike, perfect for off-road adventures.",
+          "image_url": "https://i.pravatar.cc/150?img=60",
+          "collection_point": "123 Elm Street, Los Angeles, CA",
+          "date_of_expire": "2024-12-01T12:00:00.000Z",
+          "date_listed": "2024-11-18T08:00:00.000Z",
+          "reserved_for_id": null,
+          "reserve_status": false,
+          "collection_state": false
+        },
+        {
+          "item_id": 2,
+          "item_name": "Bookshelf",
+          "category_id": 2,
+          "user_id": 3,
+          "description": "A sturdy wooden bookshelf, has minor scratches but fully functional.",
+          "image_url": "https://i.pravatar.cc/150?img=61",
+          "collection_point": "456 Oak Avenue, London, UK",
+          "date_of_expire": "2024-11-30T18:00:00.000Z",
+          "date_listed": "2024-11-17T09:30:00.000Z",
+          "reserved_for_id": null,
+          "reserve_status": false,
+          "collection_state": false
+        }
+      ]
+    }
+  },
+  "Post /api/items": {
+    "description": "post an items to the db",
+    "object_posted": {
+      "item_id": 2,
+      "item_name": "Bookshelf",
+      "category_id": 2,
+      "user_id": 3,
+      "description": "A sturdy wooden bookshelf, has minor scratches but fully functional.",
+      "image_url": "https://i.pravatar.cc/150?img=61",
+      "collection_point": "456 Oak Avenue, London, UK",
+      "date_of_expire": "2024-11-30T18:00:00.000Z",
+      "date_listed": "2024-11-17T09:30:00.000Z",
+      "reserved_for_id": null,
+      "reserve_status": false,
+      "collection_state": false
+    },
+    "example_of_response": {
+      "item_id": 12,
+      "description": "post an items to the db",
+      "item_name": "Bookshelf",
+      "category_id": 2,
+      "user_id": 3,
+      "image_url": "https://i.pravatar.cc/150?img=61",
+      "collection_point": "456 Oak Avenue, London, UK",
+      "date_of_expire": "2024-11-30T18:00:00.000Z",
+      "date_listed": "2024-11-17T09:30:00.000Z",
+      "reserved_for_id": null,
+      "reserve_status": false,
+      "collection_state": false
+    }
+  },
+  "GET /api/items/:item_id": {
+    "description": "serves item by id ",
+    "params": ["item_id"],
+    "example_of_response": {
+      "item_id": 12,
+      "description": "post an items to the db",
+      "item_name": "Bookshelf",
+      "category_id": 2,
+      "user_id": 3,
+      "image_url": "https://i.pravatar.cc/150?img=61",
+      "collection_point": "456 Oak Avenue, London, UK",
+      "date_of_expire": "2024-11-30T18:00:00.000Z",
+      "date_listed": "2024-11-17T09:30:00.000Z",
+      "reserved_for_id": null,
+      "reserve_status": false,
+      "collection_state": false
+    }
+  },
+  "DELETE /api/items/:item_id": {
+    "description": "delete item by id ",
+    "params": ["item_id"],
+    "example_of_response": {}
+  },
+  "GET /api/categories": {
+    "description": "serve all categories ",
+    "example_of_response": {
+      "category_id": 2,
+      "category_name": "groceries",
+      "description": "Daily essentials including fresh produce, snacks, and beverages.",
+      "image_url": "https://images.pexels.com/photos/6590933/pexels-photo-6590933.jpeg"
+    }
   }
 }
