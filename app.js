@@ -13,6 +13,7 @@ const {
   serverErrorHandler,
 } = require("./controllers/errorHandles");
 const getCategories = require("./controllers/categories.controller");
+const { getUsers, addUser } = require("./controllers/users.controller");
 const app = express();
 
 app.use(cors());
@@ -25,6 +26,8 @@ app.post("/api/items", addItem);
 app.get("/api/items/:item_id", getItemById);
 app.delete("/api/items/:item_id", deleteItemById);
 app.get("/api/categories", getCategories);
+app.get("/api/users", getUsers);
+app.post("/api/users", addUser);
 app.get("*", (request, response) => {
   response.status(404).send({ msg: "Endpoint does not exist!" });
 });

@@ -106,5 +106,36 @@
       "description": "Daily essentials including fresh produce, snacks, and beverages.",
       "image_url": "https://images.pexels.com/photos/6590933/pexels-photo-6590933.jpeg"
     }
+  },
+  "GET /api/users": {
+    "description": "serves all users",
+    "example_of_response": {
+      "user_id": 11,
+      "username": "techguru123",
+      "name": "Alice Johnson",
+      "area": "New York, USA",
+      "email": "alice.johnson@example.com",
+      "rating": null,
+      "avatar_url": "https://i.pravatar.cc/150?img=5"
+    }
+  },
+  "POST /api/users": {
+    "description": "add a user to the db",
+    "example_of_user_object": {
+      "username": "techguru123",
+      "name": "Alice Johnson",
+      "area": "New York, USA",
+      "email": "alice.johnson@example.com",
+      "avatar_url": "https://i.pravatar.cc/150?img=5"
+    },
+    "example_of_response": {
+      "user_id": 11,
+      "username": "techguru123",
+      "name": "Alice Johnson",
+      "area": "New York, USA",
+      "email": "alice.johnson@example.com",
+      "rating": null,
+      "avatar_url": "https://i.pravatar.cc/150?img=5"
+    }
   }
 }

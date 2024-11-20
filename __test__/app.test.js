@@ -251,3 +251,86 @@ describe("/api/categories", () => {
       });
   });
 });
+
+describe("/api/users", () => {
+  describe("GET users from db", () => {
+    test("GET:200 response with all users", () => {
+      return request(app)
+        .get("/api/users")
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.users).toHaveLength(10);
+          body.users.forEach((user) => {
+            expect(user).toHaveProperty("user_id");
+            expect(user).toHaveProperty("username");
+            expect(user).toHaveProperty("name");
+            expect(user).toHaveProperty("email");
+            expect(user).toHaveProperty("rating");
+            expect(user).toHaveProperty("avatar_url");
+          });
+        });
+    });
+  });
+  describe("POST user object", () => {
+    test.only("POST:201 response with added user object", () => {
+      const user = {
+        username: "techguru123",
+        name: "Alice Johnson",
+        area: "New York, USA",
+        email: "alice.johnson@example.com",
+        avatar_url: "https://i.pravatar.cc/150?img=5",
+      };
+      return request(app)
+        .post("/api/users")
+        .send(user)
+        .expect(201)
+        .then(({ body }) => {
+          expect(body.user).toHaveProperty("user_id");
+          expect(body.user).toHaveProperty("username");
+          expect(body.user).toHaveProperty("name");
+          expect(body.user).toHaveProperty("email");
+          expect(body.user).toHaveProperty("rating");
+          expect(body.user).toHaveProperty("avatar_url");
+        });
+    });
+    test("POST:400 bad request when not null properties are not assinged", () => {
+      const user = {
+        username: null,
+        name: "Alice Johnson",
+        area: "New York, USA",
+        email: "alice.johnson@example.com",
+        rating: 4.8,
+        avatar_url: "https://i.pravatar.cc/150?img=5",
+      };
+      return request(app)
+        .post("/api/users")
+        .send(user)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+    test("POST:400 bad request when passed invalid data type", () => {
+      const user = {
+        username: "helloo",
+        name: "Alice Johnson",
+        area: "New York, USA",
+        email: "alice.johnson@example.com",
+        rating: "hello",
+        avatar_url: "https://i.pravatar.cc/150?img=5",
+      };
+      return request(app)
+        .post("/api/users")
+        .send(user)
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
+});
+describe("/api/users/:username", () => {
+  describe("GET user by username", () => {
+    test("GET:200 response with user object", () => {});
+  });
+});
