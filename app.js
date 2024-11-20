@@ -5,6 +5,7 @@ const {
   getItems,
   getItemById,
   addItem,
+  deleteItemById,
 } = require("./controllers/items.controller");
 const {
   customErrorHandler,
@@ -22,6 +23,7 @@ app.get("/api", getEndPoints);
 app.get("/api/items", getItems);
 app.post("/api/items", addItem);
 app.get("/api/items/:item_id", getItemById);
+app.delete("/api/items/:item_id", deleteItemById);
 app.get("/api/categories", getCategories);
 app.get("*", (request, response) => {
   response.status(404).send({ msg: "Endpoint does not exist!" });

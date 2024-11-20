@@ -79,4 +79,15 @@ const postItem = ({
     });
 };
 
-module.exports = { fetchItems, fetchItemById, postItem };
+const removeItemById = (item_id) => {
+  return db
+    .query(`SELECT * FROM items WHERE item_id = $1`, [item_id])
+    .then(({ rows }) => {
+      if (!rows.length) {
+        return Promise.reject({ status: 404, msg: "item not found" });
+      }
+      return db.query(`DELETE FROM items WHERE item_id = $1`, [item_id]);
+    });
+};
+
+module.exports = { fetchItems, fetchItemById, postItem, removeItemById };

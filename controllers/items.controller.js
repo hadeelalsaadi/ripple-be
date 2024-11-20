@@ -2,6 +2,7 @@ const {
   fetchItems,
   fetchItemById,
   postItem,
+  removeItemById,
 } = require("../models/items.model");
 
 const getItems = (request, response, next) => {
@@ -38,4 +39,15 @@ const addItem = (request, response, next) => {
     });
 };
 
-module.exports = { getItems, getItemById, addItem };
+const deleteItemById = (request, response, next) => {
+  const { item_id } = request.params;
+  removeItemById(item_id)
+    .then(() => {
+      response.status(204).send();
+    })
+    .catch((err) => {
+      next(err);
+    });
+};
+
+module.exports = { getItems, getItemById, addItem, deleteItemById };

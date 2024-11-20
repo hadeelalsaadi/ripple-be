@@ -212,6 +212,27 @@ describe("/api/items/:item_id", () => {
         });
     });
   });
+  describe("DELETE item request", () => {
+    test("DELETE: 204, delets item and responds with the correct status when given the delete query", () => {
+      return request(app).delete("/api/items/5").expect(204);
+    });
+    test("DELETE: 404, responds with appropriate status and message when provided with the item_id which does not exist ", () => {
+      return request(app)
+        .delete("/api/items/555")
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("item not found");
+        });
+    });
+    test("DELETE: 400, responds with appropriate status and message when provided with the invalid item_id", () => {
+      return request(app)
+        .delete("/api/items/not-a-number")
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
 });
 
 describe("/api/categories", () => {
