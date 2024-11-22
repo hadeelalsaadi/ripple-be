@@ -71,7 +71,8 @@ describe("/api/items", () => {
             user_id: 3,
             description:
               "A sturdy wooden bookshelf, has minor scratches but fully functional.",
-            image_url: "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            image_url:
+              "https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
             collection_point: "456 Oak Avenue, London, UK",
             date_of_expire: "2024-11-30T18:00:00.000Z",
             date_listed: "2024-11-17T09:30:00.000Z",
@@ -191,7 +192,8 @@ describe("/api/items/:item_id", () => {
         .get("/api/items/1")
         .expect(200)
         .then(({ body }) => {
-          expect(Object.keys(body.item).length).toBe(12);
+          console.log(body.item);
+          expect(Object.keys(body.item).length).toBe(13);
           expect(body.item.item_id).toBe(1);
         });
     });
@@ -233,83 +235,80 @@ describe("/api/items/:item_id", () => {
         });
     });
   });
-  describe("PATCH-item-request",()=>{
-    test("PATCH- 200 response ok when user update an item details",()=>{
+  describe("PATCH-item-request", () => {
+    test("PATCH- 200 response ok when user update an item details", () => {
       return request(app)
-      .patch("/api/items/3")
-      .send({item_name: "mixer",
-        category_id: 5,
-        user_id: 5,
-        description:
-          "New description",
-        image_url:
-          "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
-        collection_point: "ashford,uk",
-        date_of_expire: "2024-12-05T15:00:00Z",
-        date_listed: "2024-11-16T12:45:00Z",
-        reserved_for_id: null,
-        reserve_status: true,
-        collection_state: true,
-
-      })
-      .expect(200)
-      .then(({body})=>{
-        expect(body.item.item_name).toBe("mixer")
-        expect(body.item.category_id).toBe(5)
-        expect(body.item.description).toBe("New description")
-        expect(body.item.image_url).toBe("https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png")
-        expect(body.item.collection_point).toBe("ashford,uk")
-      })
-    })
-    test("PATCH-404 response with not found when passed invalid item_id ",()=>{
+        .patch("/api/items/3")
+        .send({
+          item_name: "mixer",
+          category_id: 5,
+          user_id: 5,
+          description: "New description",
+          image_url:
+            "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
+          collection_point: "ashford,uk",
+          date_of_expire: "2024-12-05T15:00:00Z",
+          date_listed: "2024-11-16T12:45:00Z",
+          reserved_for_id: null,
+          reserve_status: true,
+          collection_state: true,
+        })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.item.item_name).toBe("mixer");
+          expect(body.item.category_id).toBe(5);
+          expect(body.item.description).toBe("New description");
+          expect(body.item.image_url).toBe(
+            "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png"
+          );
+          expect(body.item.collection_point).toBe("ashford,uk");
+        });
+    });
+    test("PATCH-404 response with not found when passed invalid item_id ", () => {
       return request(app)
-      .patch("/api/items/9999")
-      .send({item_name: "mixer",
-        category_id: 5,
-        user_id: 5,
-        description:
-          "New description",
-        image_url:
-          "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
-        collection_point: "ashford,uk",
-        date_of_expire: "2024-12-05T15:00:00Z",
-        date_listed: "2024-11-16T12:45:00Z",
-        reserved_for_id: null,
-        reserve_status: true,
-        collection_state: true,
-
-      })
-      .expect(404)
-      .then(({body})=>{
-        expect(body.msg).toBe("item not found")
-      })
-      
-    })
-    test("PATCH-400 response with Bad request when passed invalid data type",()=>{
+        .patch("/api/items/9999")
+        .send({
+          item_name: "mixer",
+          category_id: 5,
+          user_id: 5,
+          description: "New description",
+          image_url:
+            "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
+          collection_point: "ashford,uk",
+          date_of_expire: "2024-12-05T15:00:00Z",
+          date_listed: "2024-11-16T12:45:00Z",
+          reserved_for_id: null,
+          reserve_status: true,
+          collection_state: true,
+        })
+        .expect(404)
+        .then(({ body }) => {
+          expect(body.msg).toBe("item not found");
+        });
+    });
+    test("PATCH-400 response with Bad request when passed invalid data type", () => {
       return request(app)
-      .patch("/api/items/3")
-      .send({item_name: "mixer",
-        category_id: 5,
-        user_id: 5,
-        description:
-          "New description",
-        image_url:
-          "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
-        collection_point: "ashford,uk",
-        date_of_expire: "2024-12-05T15:00:00Z",
-        date_listed: "2024-11-16T12:45:00Z",
-        reserved_for_id: null,
-        reserve_status:'rrrr',
-        collection_state: true,
-
-      })
-      .expect(400)
-      .then(({body})=>{
-        expect(body.msg).toBe("Bad request")
-      })
-      
-    })
-  })
+        .patch("/api/items/3")
+        .send({
+          item_name: "mixer",
+          category_id: 5,
+          user_id: 5,
+          description: "New description",
+          image_url:
+            "https://www.thespruceeats.com/thmb/PAk0iawhBcizsaBasNSPE0-j_lM=/750x0/filters:no_upscale():max_bytes(150000):strip_icc():format(webp)/best-blenders-to-buy-4062976-SpruceEats-Primary-DD-10126ed0790b47388c59ed3c082852d7.png",
+          collection_point: "ashford,uk",
+          date_of_expire: "2024-12-05T15:00:00Z",
+          date_listed: "2024-11-16T12:45:00Z",
+          reserved_for_id: null,
+          reserve_status: "rrrr",
+          collection_state: true,
+        })
+        .expect(400)
+        .then(({ body }) => {
+          expect(body.msg).toBe("Bad request");
+        });
+    });
+  });
 });
 
 describe("/api/categories", () => {
@@ -413,7 +412,6 @@ describe("/api/users/:username", () => {
         .get("/api/users/fitness_freak")
         .expect(200)
         .then(({ body }) => {
-         
           expect(body.user).toHaveProperty("username");
           expect(body.user).toHaveProperty("name");
           expect(body.user).toHaveProperty("area");
@@ -422,23 +420,21 @@ describe("/api/users/:username", () => {
           expect(body.user).toHaveProperty("avatar_url");
         });
     });
-    test("GET:404 response with not found when passed in username not exist",() => {
+    test("GET:404 response with not found when passed in username not exist", () => {
       return request(app)
         .get("/api/users/hadeel")
         .expect(404)
         .then(({ body }) => {
-         expect(body.msg).toBe("user not found")
+          expect(body.msg).toBe("user not found");
         });
     });
-    test("GET:404 response with not found when passed in username as a wrong data type",() => {
+    test("GET:404 response with not found when passed in username as a wrong data type", () => {
       return request(app)
         .get("/api/users/999")
         .expect(404)
         .then(({ body }) => {
-         expect(body.msg).toBe("user not found")
+          expect(body.msg).toBe("user not found");
         });
     });
-    
-
   });
 });

@@ -13,6 +13,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(-118.1508947 34.0935259)",
   },
   {
     item_name: "Bookshelf",
@@ -28,6 +29,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(-0.3833556 51.4258071)",
   },
   {
     item_name: "Kitchen Mixer",
@@ -43,6 +45,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(2.3488 48.85341)",
   },
   {
     item_name: "Dog Crate",
@@ -57,6 +60,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(-87.6538415 41.5177238)",
   },
   {
     item_name: "Vintage Camera",
@@ -71,6 +75,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(139.69171 35.6895)",
   },
   {
     item_name: "Painting Supplies",
@@ -86,6 +91,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(12.51133 41.89193)",
   },
   {
     item_name: "Office Chair",
@@ -100,6 +106,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(-3.2765753 54.7023545)",
   },
   {
     item_name: "Electric Kettle",
@@ -109,12 +116,13 @@ module.exports = [
       "Electric kettle, used but in good condition, boils water quickly.",
     image_url:
       "https://images.pexels.com/photos/1921673/pexels-photo-1921673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-    collection_point: "890 Walnut Way, New York, NY",
+    collection_point: "Bromley, London, United Kingdom",
     date_of_expire: "2024-12-02T19:00:00Z",
     date_listed: "2024-11-11T15:45:00Z",
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(0.01519 51.40606)",
   },
   {
     item_name: "Set of Plates",
@@ -129,6 +137,7 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(-1.5437941 53.7974185)",
   },
   {
     item_name: "Yoga Mat",
@@ -144,5 +153,6 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
+    location: "POINT(-0.1440551 51.4893335)",
   },
 ];

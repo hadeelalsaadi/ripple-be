@@ -11,7 +11,7 @@ const fetchItems = (sorted = "date_listed", order = "desc", category) => {
     });
   }
 
-  let queryStr = `select items.* from items join categories  on items.category_id = categories.category_id`;
+  let queryStr = `select  public.items.* from  public.items join categories  on  public.items.category_id = categories.category_id`;
   let queryArray = [];
   if (category) {
     queryArray.push(
@@ -21,7 +21,7 @@ const fetchItems = (sorted = "date_listed", order = "desc", category) => {
     queryStr += ` where categories.category_name = '${category}'`;
   }
 
-  queryStr += ` group by items.item_id order by ${sorted} ${order}`;
+  queryStr += ` group by  public.items.item_id order by ${sorted} ${order}`;
 
   queryArray.push(db.query(queryStr));
   return Promise.all(queryArray).then((data) => {
@@ -35,7 +35,7 @@ const fetchItems = (sorted = "date_listed", order = "desc", category) => {
 
 const fetchItemById = (id) => {
   return db
-    .query(`select * from items where item_id= $1`, [id])
+    .query(`select * from  public.items where item_id= $1`, [id])
     .then(({ rows }) => {
       if (rows.length === 0) {
         return Promise.reject({ status: 404, msg: "item not found" });
@@ -56,10 +56,12 @@ const postItem = ({
   reserved_for_id,
   reserve_status,
   collection_state,
+  location,
 }) => {
+  location = "POINT(-0.1440551 51.4893335)";
   return db
     .query(
-      "insert into items (item_name, category_id, user_id, description, image_url, collection_point, date_of_expire, date_listed, reserved_for_id, reserve_status, collection_state) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning *;",
+      "insert into  public.items (item_name, category_id, user_id, description, image_url, collection_point, date_of_expire, date_listed, reserved_for_id, reserve_status, collection_state,location) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11,$12) returning *;",
       [
         item_name,
         category_id,
@@ -72,6 +74,7 @@ const postItem = ({
         reserved_for_id,
         reserve_status,
         collection_state,
+        location,
       ]
     )
     .then(({ rows }) => {
@@ -81,12 +84,14 @@ const postItem = ({
 
 const removeItemById = (item_id) => {
   return db
-    .query(`SELECT * FROM items WHERE item_id = $1`, [item_id])
+    .query(`SELECT * FROM  public.items WHERE item_id = $1`, [item_id])
     .then(({ rows }) => {
       if (!rows.length) {
         return Promise.reject({ status: 404, msg: "item not found" });
       }
-      return db.query(`DELETE FROM items WHERE item_id = $1`, [item_id]);
+      return db.query(`DELETE FROM  public.items WHERE item_id = $1`, [
+        item_id,
+      ]);
     });
 };
 
@@ -105,10 +110,9 @@ const patchItem = (
     collection_state,
   }
 ) => {
-  
   return db
     .query(
-      `UPDATE items
+      `UPDATE  public.items
     SET item_name = $1, 
     category_id= $2, description =$3, image_url= $4, collection_point= $5, date_of_expire =$6, date_listed= $7, reserved_for_id= $8, reserve_status =$9, collection_state =$10
     WHERE item_id = $11 RETURNING *;`,

@@ -48,7 +48,8 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
               date_listed  TIMESTAMP, 
               reserved_for_id INT REFERENCES users(user_id),
               reserve_status BOOLEAN,
-              collection_state BOOLEAN
+              collection_state BOOLEAN,
+              location gis.geography(POINT) not null
             );`);
     })
     .then(() => {
@@ -89,7 +90,7 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
 
     .then(() => {
       const insertitems = format(
-        "INSERT INTO items (item_name, category_id, user_id, description, image_url,collection_point, date_of_expire, date_listed, reserved_for_id, reserve_status, collection_state ) VALUES %L;",
+        "INSERT INTO items (item_name, category_id, user_id, description, image_url,collection_point, date_of_expire, date_listed, reserved_for_id, reserve_status, collection_state,location ) VALUES %L;",
         itemsData.map(
           ({
             item_name,
@@ -103,6 +104,7 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
             reserved_for_id,
             reserve_status,
             collection_state,
+            location,
           }) => [
             item_name,
             category_id,
@@ -115,6 +117,7 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
             reserved_for_id,
             reserve_status,
             collection_state,
+            location,
           ]
         )
       );
@@ -131,6 +134,42 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
         ])
       );
       return db.query(insertmessages);
+    })
+    .then(() => {
+      return db.query(`create index items_geo_index
+  on items
+  using GIST (location);`);
+    })
+    .then(() => {
+      return db.query(`create or replace function st_y(geo gis.geometry) 
+              returns float
+              language sql 
+              as $$  
+              SELECT ST_Y(geo);
+              $$;
+              create or replace function st_x(geo gis.geometry) 
+              returns float
+              language sql 
+              as $$  
+              SELECT ST_X(geo);
+              $$;
+            
+
+`);
+    })
+    .then(() => {
+      return db.query(`create or replace function nearby_items(lat float, long float)
+                      returns table (item_id items.item_id%TYPE, item_name items.item_name%TYPE, lat float, long float, dist_meters float)
+                      language sql
+                      as $$
+                      select item_id,  item_name, st_y(location::gis.geometry) as lat, st_x(location::gis.geometry)
+                      as long, gis.st_distance(location::gis.geometry, POINT(long, lat)::gis.geometry) as dist_meters
+                      from items
+                      order by location::gis.geometry <-> POINT(long, lat)::gis.geometry;
+        $$;`);
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 
