@@ -5,12 +5,13 @@ const {
   postItem,
   removeItemById,
   patchItem,
+  selectNearItems,
 } = require("../models/items.model");
 
 const getItems = (request, response, next) => {
-  const { sorted, order, category } = request.query;
+  let { sorted, order, category, userLocation } = request.query;
 
-  fetchItems(sorted, order, category)
+  fetchItems(sorted, order, category, userLocation)
     .then((data) => {
       response.status(200).send({ items: data });
     })

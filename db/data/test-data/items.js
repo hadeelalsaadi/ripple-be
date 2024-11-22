@@ -153,6 +153,6 @@ module.exports = [
     reserved_for_id: null,
     reserve_status: false,
     collection_state: false,
-    location: "POINT(-0.1440551 51.4893335)",
+    location: "POINT(0.1276 51.5072)",
   },
 ];

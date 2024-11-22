@@ -129,13 +129,28 @@ describe("/api/items", () => {
         reserved_for_id: null,
         reserve_status: false,
         collection_state: false,
+        location: "POINT(-118.1508947 34.0935259)",
+      };
+      const postedItem = {
+        item_name: "Funny Mug",
+        category_id: 2,
+        user_id: 2,
+        description: "Mug with the very funny quote on it.",
+        image_url: "https://i.pravatar.cc/150?img=60",
+        collection_point: "123 Elm Street, Los Angeles, CA",
+        date_of_expire: "2024-12-01T00:12:00.000Z",
+        date_listed: "2024-11-18T00:08:00.000Z",
+        reserved_for_id: null,
+        reserve_status: false,
+        collection_state: false,
+        location: "0101000020E6100000F1683E42A8895DC01CEA1CA8F80B4140",
       };
       return request(app)
         .post("/api/items")
         .send(newArticle)
         .expect(201)
         .then(({ body }) => {
-          expect(body.item).toMatchObject(newArticle);
+          expect(body.item).toMatchObject(postedItem);
           expect(typeof body.item.item_id).toBe("number");
         });
     });
@@ -252,6 +267,7 @@ describe("/api/items/:item_id", () => {
           reserved_for_id: null,
           reserve_status: true,
           collection_state: true,
+          location: "POINT(-118.1508947 34.0935259)",
         })
         .expect(200)
         .then(({ body }) => {
