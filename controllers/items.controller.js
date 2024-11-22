@@ -9,7 +9,7 @@ const {
 } = require("../models/items.model");
 
 const getItems = (request, response, next) => {
-  let { sorted, order, category, userLocation } = request.query;
+  const { sorted, order, category, userLocation } = request.query;
 
   fetchItems(sorted, order, category, userLocation)
     .then((data) => {
