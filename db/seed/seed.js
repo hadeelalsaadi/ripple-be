@@ -49,7 +49,7 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
               reserved_for_id INT REFERENCES users(user_id),
               reserve_status BOOLEAN,
               collection_state BOOLEAN,
-              location gis.geography(POINT) not null
+              location geography(POINT) not null
             );`);
     })
     .then(() => {

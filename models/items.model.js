@@ -17,9 +17,9 @@ const fetchItems = (
     });
   }
   if (userLocation) {
-    queryStr = `select  items.*, gis.st_distance(
-                                      gis.st_transform(location::gis.geometry, 3857),
-                                      gis.st_transform(gis.st_setsrid(gis.st_makepoint($1, $2), 4326), 3857) ) as dist 
+    queryStr = `select  items.*, st_distance(
+                                      st_transform(location::geometry, 3857),
+                                      st_transform(st_setsrid(st_makepoint($1, $2), 4326), 3857) ) as dist 
                                       from  items join categories  on  items.category_id = categories.category_id`;
   } else {
     queryStr = `select  items.* from  items join categories  on  items.category_id = categories.category_id`;
@@ -158,9 +158,9 @@ const patchItem = (
 const selectNearItems = (lng, lat) => {
   return db
     .query(
-      `SELECT location, item_name, gis.st_distance(
-    gis.st_transform(location::gis.geometry, 3857),
-    gis.st_transform(gis.st_setsrid(gis.st_makepoint($1, $2), 4326), 3857) ) as dist from items order by dist`,
+      `SELECT location, item_name, t_distance(
+    st_transform(location::geometry, 3857),
+    st_transform(st_setsrid(st_makepoint($1, $2), 4326), 3857) ) as dist from items order by dist`,
       [lng, lat]
     )
     .then(({ rows }) => {
