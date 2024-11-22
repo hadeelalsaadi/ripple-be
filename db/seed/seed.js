@@ -134,42 +134,6 @@ const seed = ({ itemsData, messagesData, categoriesData, usersData }) => {
         ])
       );
       return db.query(insertmessages);
-    })
-    .then(() => {
-      return db.query(`create index items_geo_index
-  on items
-  using GIST (location);`);
-    })
-    .then(() => {
-      return db.query(`create or replace function st_y(geo gis.geometry) 
-              returns float
-              language sql 
-              as $$  
-              SELECT ST_Y(geo);
-              $$;
-              create or replace function st_x(geo gis.geometry) 
-              returns float
-              language sql 
-              as $$  
-              SELECT ST_X(geo);
-              $$;
-            
-
-`);
-    })
-    .then(() => {
-      return db.query(`create or replace function nearby_items(lat float, long float)
-                      returns table (item_id items.item_id%TYPE, item_name items.item_name%TYPE, lat float, long float, dist_meters float)
-                      language sql
-                      as $$
-                      select item_id,  item_name, st_y(location::gis.geometry) as lat, st_x(location::gis.geometry)
-                      as long, gis.st_distance(location::gis.geometry, POINT(long, lat)::gis.geometry) as dist_meters
-                      from items
-                      order by location::gis.geometry <-> POINT(long, lat)::gis.geometry;
-        $$;`);
-    })
-    .catch((err) => {
-      console.log(err);
     });
 };
 
