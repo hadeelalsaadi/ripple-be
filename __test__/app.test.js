@@ -90,7 +90,7 @@ describe("/api/items", () => {
           expect(body.items).toBeSortedBy("item_name");
         });
     });
-    test("GET:200 response with all items sorted by distance", () => {
+    test.only("GET:200 response with all items sorted by distance", () => {
       return request(app)
         .get("/api/items")
         .query({
