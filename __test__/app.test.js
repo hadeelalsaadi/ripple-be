@@ -101,7 +101,7 @@ describe("/api/items", () => {
         .expect(200)
         .then(({ body }) => {
           expect(body.items).toHaveLength(10);
-          expect(body.items).toBeSortedBy("dist");
+          expect(body.items).toBeSortedBy("distance");
         });
     });
     test("GET-404 response with category does not exist when passed invalid category", () => {
@@ -221,7 +221,6 @@ describe("/api/items/:item_id", () => {
         .get("/api/items/1")
         .expect(200)
         .then(({ body }) => {
-          console.log(body.item);
           expect(Object.keys(body.item).length).toBe(13);
           expect(body.item.item_id).toBe(1);
         });

@@ -15,7 +15,7 @@ const psqlErrorHandler = (err, request, response, next) => {
 };
 
 const serverErrorHandler = (err, request, response, next) => {
-  console.log(err.stack);
+  //console.log(err.stack);
   response.status(500).send({ msg: "internal server Error" });
 };
 

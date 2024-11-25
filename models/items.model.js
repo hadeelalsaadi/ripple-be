@@ -12,9 +12,7 @@ const fetchItems = (
     "collection_point",
     "distance",
   ];
-  if (sorted === "distance") {
-    sorted = "date_listed";
-  }
+
   const validOrder = ["asc", "desc"];
   let queryStr = "";
 
@@ -25,10 +23,9 @@ const fetchItems = (
     });
   }
   if (userLocation) {
-    console.log(userLocation);
     queryStr = `select  items.*, st_distance(
                                       st_transform(location::geometry, 3857),
-                                      st_transform(st_setsrid(st_makepoint($1, $2), 4326), 3857) ) as dist 
+                                      st_transform(st_setsrid(st_makepoint($1, $2), 4326), 3857) ) as distance 
                                       from  items join categories  on  items.category_id = categories.category_id`;
   } else {
     queryStr = `select  items.* from  items join categories  on  items.category_id = categories.category_id`;
@@ -42,7 +39,7 @@ const fetchItems = (
     queryStr += ` where categories.category_name = '${category}'`;
   }
   if (userLocation) {
-    queryStr += ` group by items.item_id order by dist ASC`;
+    queryStr += ` group by items.item_id order by distance ASC`;
     queryArray.push(db.query(queryStr, [userLocation.long, userLocation.lat]));
   } else {
     queryStr += ` group by items.item_id order by ${sorted} ${order}`;
