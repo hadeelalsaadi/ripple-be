@@ -100,7 +100,7 @@ describe("/api/items", () => {
         })
         .expect(200)
         .then(({ body }) => {
-          console.log(body.items);
+          //console.log(body.items);
           expect(body.items).toHaveLength(10);
           expect(body.items).toBeSortedBy("distance");
         });
