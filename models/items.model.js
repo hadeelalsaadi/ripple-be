@@ -23,10 +23,14 @@ const fetchItems = (
     });
   }
   if (userLocation) {
-    console.log(userLocation);
+    console.log(userLocation, userLocation.long, userLocation.lat);
     queryStr = `select  items.*, st_distance(
                                       st_transform(location::geometry, 3857),
-                                      st_transform(st_setsrid(st_makepoint(${+userLocation.long},${+userLocation.lat}), 4326), 3857) ) as distance 
+                                      st_transform(st_setsrid(st_makepoint(${Number(
+                                        userLocation.long
+                                      )},${Number(
+      userLocation.lat
+    )}), 4326), 3857) ) as distance 
                                       from  items join categories  on  items.category_id = categories.category_id`;
   } else {
     queryStr = `select  items.* from  items join categories  on  items.category_id = categories.category_id`;
