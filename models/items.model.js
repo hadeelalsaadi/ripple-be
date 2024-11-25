@@ -12,6 +12,9 @@ const fetchItems = (
     "collection_point",
     "distance",
   ];
+  if (sorted === "distance") {
+    sorted = "date_listed";
+  }
   const validOrder = ["asc", "desc"];
   let queryStr = "";
 
@@ -21,7 +24,7 @@ const fetchItems = (
       msg: "invalid sorting or order query",
     });
   }
-  if (userLocation && sorted === "distance") {
+  if (userLocation) {
     console.log(userLocation);
     queryStr = `select  items.*, st_distance(
                                       st_transform(location::geometry, 3857),
@@ -38,7 +41,7 @@ const fetchItems = (
 
     queryStr += ` where categories.category_name = '${category}'`;
   }
-  if (userLocation && sorted === "distance") {
+  if (userLocation) {
     queryStr += ` group by items.item_id order by dist ASC`;
     queryArray.push(db.query(queryStr, [userLocation.long, userLocation.lat]));
   } else {
