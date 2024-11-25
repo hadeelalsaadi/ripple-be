@@ -41,15 +41,8 @@ const fetchItems = (
   }
   if (long && lat) {
     queryStr += ` group by items.item_id order by distance ASC`;
-    console.log(queryStr);
+
     queryArray.push(db.query(queryStr));
-    // queryArray.push(
-    //   db.query(`select  items.*, st_distance(
-    //                                       st_transform(location::geometry, 3857),
-    //                                       st_transform(st_setsrid(st_makepoint(-118.1508947,34.0935259), 4326), 3857) ) as
-    //                                       distance  from  items join categories  on  items.category_id = categories.category_id
-    //                                       group by items.item_id order by distance ASC`)
-    // );
   } else {
     queryStr += ` group by items.item_id order by ${sorted} ${order}`;
     queryArray.push(db.query(queryStr));

@@ -10,7 +10,6 @@ const {
 
 const getItems = (request, response, next) => {
   const { sorted, order, category, long, lat } = request.query;
-  console.log(request.query);
   fetchItems(sorted, order, category, long, lat)
     .then((data) => {
       response.status(200).send({ items: data });
