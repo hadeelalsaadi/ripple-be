@@ -16,7 +16,7 @@ const fetchItems = (
       msg: "invalid sorting or order query",
     });
   }
-  if (userLocation) {
+  if (userLocation && sorted === "distance") {
     queryStr = `select  items.*, st_distance(
                                       st_transform(location::geometry, 3857),
                                       st_transform(st_setsrid(st_makepoint($1, $2), 4326), 3857) ) as dist 
@@ -32,7 +32,7 @@ const fetchItems = (
 
     queryStr += ` where categories.category_name = '${category}'`;
   }
-  if (userLocation) {
+  if (userLocation && sorted === "distance") {
     queryStr += ` group by items.item_id order by dist ASC`;
     queryArray.push(db.query(queryStr, [userLocation.long, userLocation.lat]));
   } else {
