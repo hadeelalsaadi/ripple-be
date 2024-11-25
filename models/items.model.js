@@ -4,7 +4,8 @@ const fetchItems = (
   sorted = "date_listed",
   order = "desc",
   category,
-  userLocation
+  long,
+  lat
 ) => {
   const validSorted = [
     "date_listed",
@@ -22,10 +23,10 @@ const fetchItems = (
       msg: "invalid sorting or order query",
     });
   }
-  if (userLocation) {
+  if (long && lat) {
     queryStr = `select  items.*, st_distance(
                                       st_transform(location::geometry, 3857),
-                                      st_transform(st_setsrid(st_makepoint(${userLocation["long"]},${userLocation["lat"]}), 4326), 3857) ) as distance 
+                                      st_transform(st_setsrid(st_makepoint(${long},${lat}), 4326), 3857) ) as distance 
                                       from  items join categories  on  items.category_id = categories.category_id`;
   } else {
     queryStr = `select  items.* from  items join categories  on  items.category_id = categories.category_id`;
@@ -38,7 +39,7 @@ const fetchItems = (
 
     queryStr += ` where categories.category_name = '${category}'`;
   }
-  if (userLocation) {
+  if (long && lat) {
     queryStr += ` group by items.item_id order by distance ASC`;
     console.log(queryStr);
     queryArray.push(db.query(queryStr));

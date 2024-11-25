@@ -96,7 +96,8 @@ describe("/api/items", () => {
         .query({
           sorted: "distance",
           order: "desc",
-          userLocation: { lat: 51.4893335, long: -0.1440551 },
+          long: -0.1440551,
+          lat: 51.4893335,
         })
         .expect(200)
         .then(({ body }) => {
