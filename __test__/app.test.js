@@ -90,6 +90,19 @@ describe("/api/items", () => {
           expect(body.items).toBeSortedBy("item_name");
         });
     });
+    test("GET:200 response with all items sorted by distance", () => {
+      return request(app)
+        .get("/api/items")
+        .query({
+          sorted: "distance",
+          order: "desc",
+          userLocation: { lat: 51.4893335, long: -0.1440551 },
+        })
+        .expect(200)
+        .then(({ body }) => {
+          expect(body.items).toHaveLength(10);
+        });
+    });
     test("GET-404 response with category does not exist when passed invalid category", () => {
       return request(app)
         .get("/api/items?category=hello")

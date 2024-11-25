@@ -6,7 +6,12 @@ const fetchItems = (
   category,
   userLocation
 ) => {
-  const validSorted = ["date_listed", "item_name", "collection_point"];
+  const validSorted = [
+    "date_listed",
+    "item_name",
+    "collection_point",
+    "distance",
+  ];
   const validOrder = ["asc", "desc"];
   let queryStr = "";
 
@@ -17,6 +22,7 @@ const fetchItems = (
     });
   }
   if (userLocation && sorted === "distance") {
+    console.log(userLocation);
     queryStr = `select  items.*, st_distance(
                                       st_transform(location::geometry, 3857),
                                       st_transform(st_setsrid(st_makepoint($1, $2), 4326), 3857) ) as dist 
